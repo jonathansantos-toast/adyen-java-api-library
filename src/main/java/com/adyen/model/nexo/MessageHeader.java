@@ -1,11 +1,7 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -32,56 +28,54 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MessageHeader")
 public class MessageHeader {
 
     /**
      * The Protocol version.
      */
-    @XmlElement(name = "ProtocolVersion")
+    @SerializedName("ProtocolVersion")
     @Schema(description = ">--Rule:If MessageCategory is Login or Diagnosis")
     protected String protocolVersion;
     /**
      * The Message class.
      */
-    @XmlElement(name = "MessageClass", required = true)
+    @SerializedName("MessageClass")
     @Schema(description = "Class of the message")
     protected MessageClassType messageClass;
     /**
      * The Message category.
      */
-    @XmlElement(name = "MessageCategory", required = true)
+    @SerializedName("MessageCategory")
     @Schema(description = "Category of message.")
     protected MessageCategoryType messageCategory;
     /**
      * The Message type.
      */
-    @XmlElement(name = "MessageType", required = true)
+    @SerializedName("MessageType")
     @Schema(description = "Type of message of the Sale to POI protocol")
     protected MessageType messageType;
     /**
      * The Service id.
      */
-    @XmlElement(name = "ServiceID")
+    @SerializedName("ServiceID")
     @Schema(description = "Identification of a message pair, which processes a transaction --Rule: If \"Service\" or \"Event\" MessageClass message. If \"Device\" MessageClass, and request from POI or response from Sale.", minLength = 1, maxLength = 10)
     protected String serviceID;
     /**
      * The Device id.
      */
-    @XmlElement(name = "DeviceID")
+    @SerializedName("DeviceID")
     @Schema(description = "Identification of a device message pair --Rule: If \"Device\" MessageClass")
     protected String deviceID;
     /**
      * The Sale id.
      */
-    @XmlElement(name = "SaleID", required = true)
+    @SerializedName("SaleID")
     @Schema(description = "Identification of a Sale System or a Sale Terminal for the Sale to POI protocol")
     protected String saleID;
     /**
      * The Poiid.
      */
-    @XmlElement(name = "POIID", required = true)
+    @SerializedName("POIID")
     @Schema(description = "Identification of a POI System or a POI Terminal for the Sale to POI protocol")
     protected String poiid;
 

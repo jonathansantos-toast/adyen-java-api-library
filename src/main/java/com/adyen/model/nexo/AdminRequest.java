@@ -1,11 +1,7 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -27,16 +23,12 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AdminRequest", propOrder = {
-        "serviceIdentification"
-})
 public class AdminRequest {
 
     /**
      * The Service identification.
      */
-    @XmlElement(name = "ServiceIdentification")
+    @SerializedName("ServiceIdentification")
     @Schema(description = "Identification of the administrative service to process.")
     protected String serviceIdentification;
 

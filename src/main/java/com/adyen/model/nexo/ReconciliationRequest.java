@@ -1,11 +1,8 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,28 +28,24 @@ import java.util.List;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ReconciliationRequest", propOrder = {
-        "acquirerID"
-})
 public class ReconciliationRequest {
 
     /**
      * The Acquirer id.
      */
-    @XmlElement(name = "AcquirerID")
+    @SerializedName("AcquirerID")
     @Schema(description = "Identification of the Acquirer --Rule: Could be present only if ReconciliationType is \"AcquirerReconciliation\" or \"AcquirerSynchronisation\"")
     protected List<String> acquirerID;
     /**
      * The Reconciliation.
      */
-    @XmlElement(name = "ReconciliationType", required = true)
+    @SerializedName("ReconciliationType")
     @Schema(description = "Type of Reconciliation requested by the Sale to the POI.")
     protected ReconciliationType reconciliationType;
     /**
      * The Poi reconciliation id.
      */
-    @XmlElement(name = "POIReconciliationID")
+    @SerializedName("POIReconciliationID")
     @Schema(description = "Identification of the reconciliation period between Sale and POI.  --Rule: Absent if ReconciliationType is not \"PreviousReconciliation\"")
     protected String poiReconciliationID;
 

@@ -20,22 +20,14 @@
  */
 package com.adyen;
 
-import com.adyen.model.Amount;
 import com.adyen.model.notification.NotificationRequest;
 import com.adyen.model.notification.NotificationRequestItem;
-import com.adyen.model.notification.NotificationRequestItemContainer;
 import com.adyen.notification.NotificationHandler;
 import com.google.gson.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collections;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Tests notification messages
@@ -185,23 +177,6 @@ public class NotificationTest extends BaseTest {
         assertEquals(new Long(27211), notificationRequestItem.getAmount().getValue());
 
         assertNotNull(notificationRequestItem.getEventDate());
-    }
-
-    @Test
-    public void testGsonAndJacksonSerializeNotificationRequest() throws JsonProcessingException {
-        NotificationRequest notificationRequest = new NotificationRequest();
-        notificationRequest.setLive("live");
-        NotificationRequestItemContainer notificationContainer = new NotificationRequestItemContainer();
-        NotificationRequestItem notificationRequestItem = new NotificationRequestItem();
-        notificationRequestItem.setAmount(new Amount());
-        notificationRequestItem.setEventCode("eventcode");
-        notificationContainer.setNotificationItem(notificationRequestItem);
-        notificationRequest.setNotificationItemContainers(Collections.singletonList(notificationContainer));
-
-        String gson = GSON.toJson(notificationRequest);
-        String jackson = OBJECT_MAPPER.writeValueAsString(notificationRequest);
-
-        assertJsonStringEquals(jackson, gson);
     }
 
     private void assertJsonStringEquals(String firstInput, String secondInput) {

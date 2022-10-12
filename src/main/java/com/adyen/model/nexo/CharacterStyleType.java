@@ -1,8 +1,7 @@
 package com.adyen.model.nexo;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlType;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Arrays;
 
 
@@ -22,29 +21,27 @@ import java.util.Arrays;
  * &lt;/simpleType&gt;
  * </pre>
  */
-@XmlType(name = "CharacterStyleType")
-@XmlEnum
 public enum CharacterStyleType {
 
     /**
      * Normal character style type.
      */
-    @XmlEnumValue("Normal")
+    @SerializedName("Normal")
     NORMAL("Normal"),
     /**
      * Bold character style type.
      */
-    @XmlEnumValue("Bold")
+    @SerializedName("Bold")
     BOLD("Bold"),
     /**
      * Italic character style type.
      */
-    @XmlEnumValue("Italic")
+    @SerializedName("Italic")
     ITALIC("Italic"),
     /**
      * Underlined character style type.
      */
-    @XmlEnumValue("Underlined")
+    @SerializedName("Underlined")
     UNDERLINED("Underlined");
     private final String value;
 

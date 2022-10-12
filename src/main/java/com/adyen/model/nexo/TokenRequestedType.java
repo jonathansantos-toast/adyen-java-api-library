@@ -1,10 +1,8 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlType;
 import java.util.Arrays;
 
 
@@ -22,22 +20,20 @@ import java.util.Arrays;
  * &lt;/simpleType&gt;
  * </pre>
  */
-@XmlType(name = "TokenRequestedType")
-@XmlEnum
 public enum TokenRequestedType {
 
 
     /**
      * The token is generated to recognise a customer during the time of a transaction.
      */
-    @XmlEnumValue("Transaction")
+    @SerializedName("Transaction")
     @Schema(description = "The token is generated to recognise a customer during the time of a transaction.")
     TRANSACTION("Transaction"),
 
     /**
      * The token is generated to recognise a customer for a longer period.
      */
-    @XmlEnumValue("Customer")
+    @SerializedName("Customer")
     @Schema(description = "The token is generated to recognise a customer for a longer period.")
     CUSTOMER("Customer");
     private final String value;

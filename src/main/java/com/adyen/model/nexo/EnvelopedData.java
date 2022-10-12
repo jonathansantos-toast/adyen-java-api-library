@@ -1,10 +1,7 @@
 package com.adyen.model.nexo;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlType;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,61 +30,18 @@ import java.util.List;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "EnvelopedData", propOrder = {
-        "keyTransportOrKEK",
-        "encryptedContent"
-})
 public class EnvelopedData {
 
     /**
-     * The Key transport or kek.
-     */
-    @XmlElements({
-            @XmlElement(name = "KeyTransport", type = KeyTransport.class),
-            @XmlElement(name = "KEK", type = KEK.class)
-    })
-    protected List<Object> keyTransportOrKEK;
-    /**
      * The Encrypted content.
      */
-    @XmlElement(name = "EncryptedContent", required = true)
+    @SerializedName("EncryptedContent")
     protected EncryptedContent encryptedContent;
     /**
      * The Version.
      */
-    @XmlElement(name = "Version")
+    @SerializedName("Version")
     protected VersionType version;
-
-    /**
-     * Gets the value of the keyTransportOrKEK property.
-     * <p>
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the keyTransportOrKEK property.
-     * <p>
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getKeyTransportOrKEK().add(newItem);
-     * </pre>
-     * <p>
-     * <p>
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link KeyTransport }
-     * {@link KEK }
-     *
-     * @return the key transport or kek
-     */
-    public List<Object> getKeyTransportOrKEK() {
-        if (keyTransportOrKEK == null) {
-            keyTransportOrKEK = new ArrayList<>();
-        }
-        return this.keyTransportOrKEK;
-    }
 
     /**
      * Gets the value of the encryptedContent property.

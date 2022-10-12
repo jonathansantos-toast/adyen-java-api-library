@@ -1,11 +1,7 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -29,29 +25,24 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PaymentAccountReq", propOrder = {
-        "cardAcquisitionReference",
-        "paymentInstrumentData"
-})
 public class PaymentAccountReq {
 
     /**
      * The Card acquisition reference.
      */
-    @XmlElement(name = "CardAcquisitionReference")
+    @SerializedName("CardAcquisitionReference")
     @Schema(description = "Reference to the last CardAcquisition, to use the same card. --Rule: if the card data comes from a previous CardAcquisition")
     protected TransactionIdentification cardAcquisitionReference;
     /**
      * The Payment instrument data.
      */
-    @XmlElement(name = "PaymentInstrumentData")
+    @SerializedName("PaymentInstrumentData")
     @Schema(description = "Data related to the instrument of payment for the transaction.")
     protected PaymentInstrumentData paymentInstrumentData;
     /**
      * The Account.
      */
-    @XmlElement(name = "AccountType")
+    @SerializedName("AccountType")
     @Schema(description = "Type of cardholder account used for the transaction")
     protected AccountType accountType;
 

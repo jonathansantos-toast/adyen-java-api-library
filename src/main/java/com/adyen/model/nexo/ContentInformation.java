@@ -1,9 +1,6 @@
 package com.adyen.model.nexo;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import com.google.gson.annotations.SerializedName;
 
 
 /**
@@ -32,45 +29,37 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ContentInformation", propOrder = {
-        "envelopedData",
-        "authenticatedData",
-        "signedData",
-        "digestedData",
-        "namedKeyEncryptedData"
-})
 public class ContentInformation {
 
     /**
      * The Enveloped data.
      */
-    @XmlElement(name = "EnvelopedData")
+    @SerializedName("EnvelopedData")
     protected EnvelopedData envelopedData;
     /**
      * The Authenticated data.
      */
-    @XmlElement(name = "AuthenticatedData")
+    @SerializedName("AuthenticatedData")
     protected AuthenticatedData authenticatedData;
     /**
      * The Signed data.
      */
-    @XmlElement(name = "SignedData")
+    @SerializedName("SignedData")
     protected SignedData signedData;
     /**
      * The Digested data.
      */
-    @XmlElement(name = "DigestedData")
+    @SerializedName("DigestedData")
     protected DigestedData digestedData;
     /**
      * The Named key encrypted data.
      */
-    @XmlElement(name = "NamedKeyEncryptedData")
+    @SerializedName("NamedKeyEncryptedData")
     protected NamedKeyEncryptedData namedKeyEncryptedData;
     /**
      * The Content.
      */
-    @XmlElement(name = "ContentType", required = true)
+    @SerializedName("ContentType")
     protected ContentType contentType;
 
     /**

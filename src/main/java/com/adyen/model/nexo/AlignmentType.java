@@ -1,8 +1,7 @@
 package com.adyen.model.nexo;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlType;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Arrays;
 
 
@@ -22,29 +21,27 @@ import java.util.Arrays;
  * &lt;/simpleType&gt;
  * </pre>
  */
-@XmlType(name = "AlignmentType")
-@XmlEnum
 public enum AlignmentType {
 
     /**
      * Left alignment type.
      */
-    @XmlEnumValue("Left")
+    @SerializedName("Left")
     LEFT("Left"),
     /**
      * Right alignment type.
      */
-    @XmlEnumValue("Right")
+    @SerializedName("Right")
     RIGHT("Right"),
     /**
      * Centred alignment type.
      */
-    @XmlEnumValue("Centred")
+    @SerializedName("Centred")
     CENTRED("Centred"),
     /**
      * Justified alignment type.
      */
-    @XmlEnumValue("Justified")
+    @SerializedName("Justified")
     JUSTIFIED("Justified");
     private final String value;
 

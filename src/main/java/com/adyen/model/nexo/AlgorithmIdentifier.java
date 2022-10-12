@@ -1,9 +1,6 @@
 package com.adyen.model.nexo;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import com.google.gson.annotations.SerializedName;
 
 
 /**
@@ -26,21 +23,17 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AlgorithmIdentifier", propOrder = {
-        "parameter"
-})
 public class AlgorithmIdentifier {
 
     /**
      * The Parameter.
      */
-    @XmlElement(name = "Parameter")
+    @SerializedName("Parameter")
     protected Parameter parameter;
     /**
      * The Algorithm.
      */
-    @XmlElement(name = "Algorithm", required = true)
+    @SerializedName("Algorithm")
     protected AlgorithmType algorithm;
 
     /**

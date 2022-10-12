@@ -1,11 +1,7 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -26,20 +22,18 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ICCResetData")
 public class ICCResetData {
 
     /**
      * The Atr value.
      */
-    @XmlElement(name = "ATRValue")
+    @SerializedName("ATRValue")
     @Schema(description = "Value of the Answer To Reset of a chip card --Rule: if available", minLength = 1, maxLength = 100)
     protected byte[] atrValue;
     /**
      * The Card status words.
      */
-    @XmlElement(name = "CardStatusWords")
+    @SerializedName("CardStatusWords")
     @Schema(description = "Status of a smartcard response to a command (SW1-SW2) --Rule: if available", minLength = 2, maxLength = 2)
     protected byte[] cardStatusWords;
 

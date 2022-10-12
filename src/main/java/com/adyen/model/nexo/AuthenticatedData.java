@@ -1,10 +1,7 @@
 package com.adyen.model.nexo;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlType;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,41 +32,35 @@ import java.util.List;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AuthenticatedData", propOrder = {
-        "keyTransportOrKEK",
-        "macAlgorithm",
-        "encapsulatedContent"
-})
 public class AuthenticatedData {
 
     /**
      * The Key transport or kek.
      */
-    @XmlElements({
-            @XmlElement(name = "KeyTransport", type = KeyTransport.class),
-            @XmlElement(name = "KEK", type = KEK.class)
-    })
+    /*@XmlElements({
+            @SerializedName("KeyTransport", type = KeyTransport.class),
+            @SerializedName("KEK", type = KEK.class)
+    })*/
     protected List<Object> keyTransportOrKEK;
     /**
      * The Mac algorithm.
      */
-    @XmlElement(name = "MACAlgorithm", required = true)
+    @SerializedName("MACAlgorithm")
     protected AlgorithmIdentifier macAlgorithm;
     /**
      * The Encapsulated content.
      */
-    @XmlElement(name = "EncapsulatedContent", required = true)
+    @SerializedName("EncapsulatedContent")
     protected EncapsulatedContent encapsulatedContent;
     /**
      * The Version.
      */
-    @XmlElement(name = "Version")
+    @SerializedName("Version")
     protected VersionType version;
     /**
      * The Mac.
      */
-    @XmlElement(name = "MAC", required = true)
+    @SerializedName("MAC")
     protected byte[] mac;
 
     /**

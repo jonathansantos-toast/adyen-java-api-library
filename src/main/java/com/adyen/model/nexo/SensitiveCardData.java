@@ -1,11 +1,8 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,34 +29,30 @@ import java.util.List;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "SensitiveCardData", propOrder = {
-        "trackData"
-})
 public class SensitiveCardData {
 
     /**
      * The Track data.
      */
-    @XmlElement(name = "TrackData")
+    @SerializedName("TrackData")
     @Schema(description = "Magnetic track or magnetic ink characters line. --Rule: if EntryMode is MagStripe or RFID ")
     protected List<TrackData> trackData;
     /**
      * The Pan.
      */
-    @XmlElement(name = "PAN")
+    @SerializedName("PAN")
     @Schema(description = "Primary Account Number --Rule:  ", minLength = 8, maxLength = 28)
     protected String pan;
     /**
      * The Card seq numb.
      */
-    @XmlElement(name = "CardSeqNumb")
+    @SerializedName("CardSeqNumb")
     @Schema(description = "Card Sequence Number --Rule: if EntryMode is File, Keyed or Manual", minLength = 2, maxLength = 3)
     protected String cardSeqNumb;
     /**
      * The Expiry date.
      */
-    @XmlElement(name = "ExpiryDate")
+    @SerializedName("ExpiryDate")
     @Schema(description = "Date after which the card cannot be used. --Rule: if EntryMode is File", minLength = 4, maxLength = 4)
     protected String expiryDate;
 

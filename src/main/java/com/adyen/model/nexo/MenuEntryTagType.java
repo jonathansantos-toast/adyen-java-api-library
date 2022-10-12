@@ -1,10 +1,8 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlType;
 import java.util.Arrays;
 
 
@@ -24,36 +22,34 @@ import java.util.Arrays;
  * &lt;/simpleType&gt;
  * </pre>
  */
-@XmlType(name = "MenuEntryTagType")
-@XmlEnum
 public enum MenuEntryTagType {
 
 
     /**
      * The Cashier may select this entryof the menu
      */
-    @XmlEnumValue("Selectable")
+    @SerializedName("Selectable")
     @Schema(description = "The Cashier may select this entryof the menu")
     SELECTABLE("Selectable"),
 
     /**
      * The Cashier cannot select this entryof the menu
      */
-    @XmlEnumValue("NonSelectable")
+    @SerializedName("NonSelectable")
     @Schema(description = "The Cashier cannot select this entryof the menu")
     NON_SELECTABLE("NonSelectable"),
 
     /**
      * The selection of this entry produces the display of a sub-menu (by the sending of another Input Request messageType containing the entries of this sub-menu).
      */
-    @XmlEnumValue("SubMenu")
+    @SerializedName("SubMenu")
     @Schema(description = "The selection of this entry produces the display of a sub-menu (by the sending of another Input Request message containing the entries of this sub-menu).")
     SUB_MENU("SubMenu"),
 
     /**
      * The menu entry is a submenu, but cannot be selected.
      */
-    @XmlEnumValue("NonSelectableSubMenu")
+    @SerializedName("NonSelectableSubMenu")
     @Schema(description = "The menu entry is a submenu, but cannot be selected.")
     NON_SELECTABLE_SUB_MENU("NonSelectableSubMenu");
     private final String value;

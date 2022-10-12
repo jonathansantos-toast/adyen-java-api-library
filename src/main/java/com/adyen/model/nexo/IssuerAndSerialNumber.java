@@ -1,9 +1,7 @@
 package com.adyen.model.nexo;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import com.google.gson.annotations.SerializedName;
+
 import java.math.BigInteger;
 
 
@@ -27,22 +25,17 @@ import java.math.BigInteger;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "IssuerAndSerialNumber", propOrder = {
-        "issuer",
-        "serialNumber"
-})
 public class IssuerAndSerialNumber {
 
     /**
      * The Issuer.
      */
-    @XmlElement(name = "Issuer", required = true)
+    @SerializedName("Issuer")
     protected Issuer issuer;
     /**
      * The Serial number.
      */
-    @XmlElement(name = "SerialNumber", required = true)
+    @SerializedName("SerialNumber")
     protected BigInteger serialNumber;
 
     /**

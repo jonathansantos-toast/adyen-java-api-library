@@ -1,10 +1,8 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlType;
 import java.util.Arrays;
 
 
@@ -23,29 +21,27 @@ import java.util.Arrays;
  * &lt;/simpleType&gt;
  * </pre>
  */
-@XmlType(name = "ServicesEnabledType")
-@XmlEnum
 public enum ServicesEnabledType {
 
 
     /**
      * Enable the POI to process a card acquisition before the request of the Sale System (e.g. the same processing than the CardAcquisition command, but no more)
      */
-    @XmlEnumValue("CardAcquisition")
+    @SerializedName("CardAcquisition")
     @Schema(description = "Enable the POI to process a card acquisition before the request of the Sale System (e.g. the same processing than the CardAcquisition command, but no more)")
     CARD_ACQUISITION("CardAcquisition"),
 
     /**
      * Enable the POI to start a payment transaction before the request of the Sale System (e.g. the same processing than the Payment command)
      */
-    @XmlEnumValue("Payment")
+    @SerializedName("Payment")
     @Schema(description = "Enable the POI to start a payment transaction before the request of the Sale System (e.g. the same processing than the Payment command)")
     PAYMENT("Payment"),
 
     /**
      * Enable the POI to start a loyalty transaction before the request of the Sale System (e.g. the same processing than the Loyalty command)
      */
-    @XmlEnumValue("Loyalty")
+    @SerializedName("Loyalty")
     @Schema(description = "Enable the POI to start a loyalty transaction before the request of the Sale System (e.g. the same processing than the Loyalty command)")
     LOYALTY("Loyalty");
     private final String value;

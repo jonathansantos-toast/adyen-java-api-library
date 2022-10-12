@@ -22,11 +22,11 @@
 package com.adyen.terminal.serialization;
 
 import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
-import javax.xml.bind.annotation.XmlEnumValue;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
@@ -47,8 +47,8 @@ public class XMLEnumTypeAdapter<T> extends TypeAdapter<T> {
 
         Enum enumValue = (Enum) value;
         try {
-            if (enumValue.getClass().getField(enumValue.name()).getAnnotation(XmlEnumValue.class) != null) {
-                XmlEnumValue xmlEnumValue = enumValue.getClass().getField(enumValue.name()).getAnnotation(XmlEnumValue.class);
+            if (enumValue.getClass().getField(enumValue.name()).getAnnotation(SerializedName.class) != null) {
+                SerializedName xmlEnumValue = enumValue.getClass().getField(enumValue.name()).getAnnotation(SerializedName.class);
                 out.value(xmlEnumValue.value());
             } else {
                 out.value(enumValue.name());

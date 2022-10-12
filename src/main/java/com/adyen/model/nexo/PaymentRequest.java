@@ -1,11 +1,8 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,37 +29,30 @@ import java.util.List;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PaymentRequest", propOrder = {
-        "saleData",
-        "paymentTransaction",
-        "paymentData",
-        "loyaltyData"
-})
 public class PaymentRequest {
 
     /**
      * The Sale data.
      */
-    @XmlElement(name = "SaleData", required = true)
+    @SerializedName("SaleData")
     @Schema(description = "Data related to the Sale System.")
     protected SaleData saleData;
     /**
      * The Payment transaction.
      */
-    @XmlElement(name = "PaymentTransaction", required = true)
+    @SerializedName("PaymentTransaction")
     @Schema(description = "Data related to the payment and loyalty transaction.")
     protected PaymentTransaction paymentTransaction;
     /**
      * The Payment data.
      */
-    @XmlElement(name = "PaymentData")
+    @SerializedName("PaymentData")
     @Schema(description = "Data related to the payment transaction. --Rule: If one data element is present")
     protected PaymentData paymentData;
     /**
      * The Loyalty data.
      */
-    @XmlElement(name = "LoyaltyData")
+    @SerializedName("LoyaltyData")
     @Schema(description = "Data related to a Loyalty program or account. --Rule: Loyalty cards used with the payment transaction and read by the Sale System")
     protected List<LoyaltyData> loyaltyData;
 

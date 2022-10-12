@@ -1,10 +1,8 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlType;
 import java.util.Arrays;
 
 
@@ -23,29 +21,27 @@ import java.util.Arrays;
  * &lt;/simpleType&gt;
  * </pre>
  */
-@XmlType(name = "MessageClassType")
-@XmlEnum
 public enum MessageClassType {
 
 
     /**
      * A transaction messageType pair initiated by the Sale System, and requested to the POI System.
      */
-    @XmlEnumValue("Service")
+    @SerializedName("Service")
     @Schema(description = "A transaction message pair initiated by the Sale System, and requested to the POI System.")
     SERVICE("Service"),
 
     /**
      * A device messageType pair either: Inside a Service request and response. This device messageType pair is initiated by the POI System, and sent to Sale System,
      */
-    @XmlEnumValue("Device")
+    @SerializedName("Device")
     @Schema(description = "A device message pair either: Inside a Service request and response. This device message pair is initiated by the POI System, and sent to Sale System,")
     DEVICE("Device"),
 
     /**
      * An unsolicited event notification by the POI System to the Sale System.
      */
-    @XmlEnumValue("Event")
+    @SerializedName("Event")
     @Schema(description = "An unsolicited event notification by the POI System to the Sale System.")
     EVENT("Event");
     private final String value;

@@ -1,11 +1,8 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -28,20 +25,18 @@ import java.math.BigInteger;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CoinsOrBills")
 public class CoinsOrBills {
 
     /**
      * The Unit value.
      */
-    @XmlElement(name = "UnitValue", required = true)
+    @SerializedName("UnitValue")
     @Schema(description = "Value of a coin or bill.")
     protected BigDecimal unitValue;
     /**
      * The Number.
      */
-    @XmlElement(name = "Number", required = true)
+    @SerializedName("Number")
     @Schema(description = "Number of elements")
     protected BigInteger number;
 

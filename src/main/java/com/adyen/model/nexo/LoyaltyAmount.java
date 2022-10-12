@@ -1,12 +1,8 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlValue;
 import java.math.BigDecimal;
 
 
@@ -28,26 +24,22 @@ import java.math.BigDecimal;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LoyaltyAmount", propOrder = {
-        "value"
-})
 public class LoyaltyAmount {
 
     /**
      * The Value.
      */
-    @XmlValue
+    @SerializedName("value")
     protected BigDecimal value;
     /**
      * The Loyalty unit.
      */
-    @XmlElement(name = "LoyaltyUnit")
+    @SerializedName("LoyaltyUnit")
     protected LoyaltyUnitType loyaltyUnit;
     /**
      * The Currency.
      */
-    @XmlElement(name = "Currency")
+    @SerializedName("Currency")
     @Schema(description = "Currency of a monetary amount. --Rule: if LoyaltyUnit is Monetary")
     protected String currency;
 

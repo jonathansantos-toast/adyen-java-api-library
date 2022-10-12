@@ -1,11 +1,8 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 import java.math.BigInteger;
 
 
@@ -31,34 +28,30 @@ import java.math.BigInteger;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TransmitRequest", propOrder = {
-        "message"
-})
 public class TransmitRequest {
 
     /**
      * The Message.
      */
-    @XmlElement(name = "Message", required = true)
+    @SerializedName("Message")
     @Schema(description = "Content of a transmitted message.")
     protected byte[] message;
     /**
      * The Wait response flag.
      */
-    @XmlElement(name = "WaitResponseFlag")
+    @SerializedName("WaitResponseFlag")
     @Schema(description = "Indicates that a response message has to be received.")
     protected Boolean waitResponseFlag;
     /**
      * The Maximum transmit time.
      */
-    @XmlElement(name = "MaximumTransmitTime", required = true)
+    @SerializedName("MaximumTransmitTime")
     @Schema(description = "Maximum time in seconds of transmission.")
     protected BigInteger maximumTransmitTime;
     /**
      * The Destination address.
      */
-    @XmlElement(name = "DestinationAddress", required = true)
+    @SerializedName("DestinationAddress")
     @Schema(description = "Transport address containing the IP address or the DNS (Domain Name Server) address, followed by the character ':' and")
     protected String destinationAddress;
 

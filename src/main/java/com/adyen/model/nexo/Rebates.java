@@ -1,11 +1,8 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,30 +29,24 @@ import java.util.List;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Rebates", propOrder = {
-        "totalRebate",
-        "rebateLabel",
-        "saleItemRebate"
-})
 public class Rebates {
 
     /**
      * The Total rebate.
      */
-    @XmlElement(name = "TotalRebate")
+    @SerializedName("TotalRebate")
     @Schema(description = "The global awarded amount that is not attached to an item. --Rule: If rebate on the total amount for this loyalty program")
     protected BigDecimal totalRebate;
     /**
      * The Rebate label.
      */
-    @XmlElement(name = "RebateLabel")
+    @SerializedName("RebateLabel")
     @Schema(description = "Short text to qualify a rebate on an line item. --Rule: If provided by the Acquirer")
     protected String rebateLabel;
     /**
      * The Sale item rebate.
      */
-    @XmlElement(name = "SaleItemRebate")
+    @SerializedName("SaleItemRebate")
     @Schema(description = "The awarded amount that is attached to an item as a rebate. --Rule: only items with rebate (identified by ItemID)")
     protected List<SaleItemRebate> saleItemRebate;
 

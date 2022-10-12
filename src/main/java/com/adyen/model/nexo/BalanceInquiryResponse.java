@@ -1,11 +1,7 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -29,30 +25,24 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "BalanceInquiryResponse", propOrder = {
-        "response",
-        "paymentAccountStatus",
-        "loyaltyAccountStatus"
-})
 public class BalanceInquiryResponse {
 
     /**
      * The Response.
      */
-    @XmlElement(name = "Response", required = true)
+    @SerializedName("Response")
     @Schema(description = "Result of a message request processing.")
     protected Response response;
     /**
      * The Payment account status.
      */
-    @XmlElement(name = "PaymentAccountStatus")
+    @SerializedName("PaymentAccountStatus")
     @Schema(description = "Data related to the result of a Balance Inquiry request. --Rule: If BalanceInquiryRequest. PaymentAccount present")
     protected PaymentAccountStatus paymentAccountStatus;
     /**
      * The Loyalty account status.
      */
-    @XmlElement(name = "LoyaltyAccountStatus")
+    @SerializedName("LoyaltyAccountStatus")
     @Schema(description = "Data related to the result of a loyalty Balance Inquiry. --Rule: If BalanceInquiryRequest. LoyaltyData present")
     protected LoyaltyAccountStatus loyaltyAccountStatus;
 

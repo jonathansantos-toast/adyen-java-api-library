@@ -1,11 +1,7 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -28,23 +24,18 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PINResponse", propOrder = {
-        "response",
-        "cardholderPIN"
-})
 public class PINResponse {
 
     /**
      * The Response.
      */
-    @XmlElement(name = "Response", required = true)
+    @SerializedName("Response")
     @Schema(description = "Result of a message request processing.")
     protected Response response;
     /**
      * The Cardholder pin.
      */
-    @XmlElement(name = "CardholderPIN")
+    @SerializedName("CardholderPIN")
     @Schema(description = "Encrypted PIN and related information")
     protected CardholderPIN cardholderPIN;
 

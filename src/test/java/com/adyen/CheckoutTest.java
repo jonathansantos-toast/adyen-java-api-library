@@ -21,53 +21,14 @@
 package com.adyen;
 
 import com.adyen.constants.BrandCodes;
-import com.adyen.deserializer.PaymentMethodDetailsDeserializerJackson;
 import com.adyen.deserializer.PaymentMethodDetailsTypeAdapter;
 import com.adyen.model.Amount;
 import com.adyen.model.Split;
 import com.adyen.model.SplitAmount;
-import com.adyen.model.checkout.CheckoutCancelOrderRequest;
-import com.adyen.model.checkout.CheckoutCancelOrderResponse;
-import com.adyen.model.checkout.CheckoutCreateOrderRequest;
-import com.adyen.model.checkout.CheckoutCreateOrderResponse;
-import com.adyen.model.checkout.CheckoutOrder;
-import com.adyen.model.checkout.CheckoutPaymentsAction;
-import com.adyen.model.checkout.CreateStoredPaymentMethodRequest;
+import com.adyen.model.checkout.*;
 import com.adyen.model.checkout.details.*;
-import com.adyen.model.checkout.PaymentMethodDetails;
-import com.adyen.model.checkout.PaymentMethodsRequest;
-import com.adyen.model.checkout.PaymentMethodsResponse;
-import com.adyen.model.checkout.PaymentResultRequest;
-import com.adyen.model.checkout.PaymentResultResponse;
-import com.adyen.model.checkout.PaymentSessionRequest;
-import com.adyen.model.checkout.PaymentSessionResponse;
-import com.adyen.model.checkout.PaymentsDetailsRequest;
-import com.adyen.model.checkout.PaymentsDetailsResponse;
-import com.adyen.model.checkout.PaymentsRequest;
-import com.adyen.model.checkout.PaymentsResponse;
-import com.adyen.model.checkout.CreateCheckoutSessionRequest;
-import com.adyen.model.checkout.CreateCheckoutSessionResponse;
-import com.adyen.model.checkout.Redirect;
-import com.adyen.model.checkout.RiskData;
-import com.adyen.model.checkout.StoredPaymentMethodResource;
-import com.adyen.model.checkout.StoringMethod;
-import com.adyen.model.checkout.CreatePaymentCaptureRequest;
-import com.adyen.model.checkout.PaymentCaptureResource;
-import com.adyen.model.checkout.CreatePaymentCancelRequest;
-import com.adyen.model.checkout.PaymentCancelResource;
-import com.adyen.model.checkout.PaymentReversalResource;
-import com.adyen.model.checkout.CreatePaymentReversalRequest;
-import com.adyen.model.checkout.PaymentRefundResource;
-import com.adyen.model.checkout.CreatePaymentRefundRequest;
-import com.adyen.model.checkout.CreateStandalonePaymentCancelRequest;
-import com.adyen.model.checkout.StandalonePaymentCancelResource;
-import com.adyen.model.checkout.PaymentAmountUpdateResource;
-import com.adyen.model.checkout.CreatePaymentAmountUpdateRequest;
 import com.adyen.service.Checkout;
 import com.adyen.service.exception.ApiException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
@@ -79,20 +40,13 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
 import static com.adyen.Client.LIB_NAME;
 import static com.adyen.Client.LIB_VERSION;
 import static com.adyen.enums.Environment.LIVE;
 import static junit.framework.TestCase.assertNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * Tests for
@@ -525,7 +479,7 @@ public class CheckoutTest extends BaseTest {
     }
 
     @Test
-    public void TestSepaDirectDebitDetailsSerialization() throws JsonProcessingException {
+    public void TestSepaDirectDebitDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"iban\":\"DE87123456781234567890\",\"ownerName\":\"A. Schneider\",\"type\":\"sepadirectdebit\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         SepaDirectDebitDetails sepaDirectDebitDetails = new SepaDirectDebitDetails();
@@ -536,13 +490,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestSepaDirectDebitDetailsDeserialization() throws JsonProcessingException {
+    public void TestSepaDirectDebitDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"iban\":\"DE87123456781234567890\",\"ownerName\":\"A. Schneider\",\"type\":\"sepadirectdebit\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         SepaDirectDebitDetails sepaDirectDebitDetails = new SepaDirectDebitDetails();
@@ -553,13 +504,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedRequest, jacksonObject);
     }
 
     @Test
-    public void TestAchDetailsSerialization() throws JsonProcessingException {
+    public void TestAchDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"bankAccountNumber\":\"1234567\",\"bankLocationId\":\"1234567\",\"encryptedBankAccountNumber\":\"1234asdfg\",\"ownerName\":\"John Smith\",\"type\":\"ach\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         AchDetails achDetails = new AchDetails();
@@ -572,13 +520,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestAchDetailsDeserializer() throws JsonProcessingException {
+    public void TestAchDetailsDeserializer() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"bankAccountNumber\":\"1234567\",\"bankLocationId\":\"1234567\",\"encryptedBankAccountNumber\":\"1234asdfg\",\"ownerName\":\"John Smith\",\"type\":\"ach\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         AchDetails achDetails = new AchDetails();
@@ -591,13 +536,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
     }
 
     @Test
-    public void TestEcontextVoucherDetailsSerialization() throws JsonProcessingException {
+    public void TestEcontextVoucherDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"firstName\":\"John\",\"lastName\":\"Smith\",\"shopperEmail\":\"test@email.com\",\"telephoneNumber\":\"0123456789\",\"type\":\"econtext_seveneleven\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         EcontextVoucherDetails econtextVoucherDetails = new EcontextVoucherDetails();
@@ -611,13 +553,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestEcontextVoucherDetailsDeserialization() throws JsonProcessingException {
+    public void TestEcontextVoucherDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"firstName\":\"John\",\"lastName\":\"Smith\",\"shopperEmail\":\"test@email.com\",\"telephoneNumber\":\"0123456789\",\"type\":\"econtext_seveneleven\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         EcontextVoucherDetails econtextVoucherDetails = new EcontextVoucherDetails();
@@ -631,13 +570,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
     }
 
     @Test
-    public void TestIdealDetailsSerialization() throws JsonProcessingException {
+    public void TestIdealDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"issuer\":\"1121\",\"type\":\"ideal\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         IdealDetails idealDetails = new IdealDetails();
@@ -647,13 +583,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestIdealDetailsDeserialization() throws JsonProcessingException {
+    public void TestIdealDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"issuer\":\"1121\",\"type\":\"ideal\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
         IdealDetails idealDetails = new IdealDetails();
         idealDetails.setIssuer("1121");
@@ -662,13 +595,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
     }
 
     @Test
-    public void TestGooglePayDetailsSerialization() throws JsonProcessingException {
+    public void TestGooglePayDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"fundingSource\":\"credit\",\"googlePayToken\":\"Payload as retrieved from Google Pay response\",\"type\":\"googlepay\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         GooglePayDetails googlePayDetails = new GooglePayDetails();
@@ -679,13 +609,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestGooglePayDetailsDeserialization() throws JsonProcessingException {
+    public void TestGooglePayDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"fundingSource\":\"credit\",\"googlePayToken\":\"Payload as retrieved from Google Pay response\",\"type\":\"googlepay\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
         GooglePayDetails googlePayDetails = new GooglePayDetails();
         googlePayDetails.setGooglePayToken("Payload as retrieved from Google Pay response");
@@ -695,13 +622,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
     }
 
     @Test
-    public void TestPayWithGoogleDetailsSerialization() throws JsonProcessingException {
+    public void TestPayWithGoogleDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"fundingSource\":\"debit\",\"googlePayToken\":\"Payload as retrieved from Google Pay response\",\"recurringDetailReference\":\"serialize-reference\",\"storedPaymentMethodId\":\"shop\",\"type\":\"paywithgoogle\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         PayWithGoogleDetails payWithGoogleDetails = new PayWithGoogleDetails();
@@ -714,13 +638,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestPayWithGoogleDetailsDeserialization() throws JsonProcessingException {
+    public void TestPayWithGoogleDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"fundingSource\":\"debit\",\"googlePayToken\":\"Payload as retrieved from Google Pay response\",\"recurringDetailReference\":\"some-reference\",\"storedPaymentMethodId\":\"my-shop\",\"type\":\"paywithgoogle\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         PayWithGoogleDetails payWithGoogleDetails = new PayWithGoogleDetails();
@@ -733,13 +654,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
     }
 
     @Test
-    public void TestPayPalDetails() throws JsonProcessingException {
+    public void TestPayPalDetails() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"orderID\":\"orderId\",\"payerID\":\"payerId\",\"type\":\"paypal\",\"storedPaymentMethodId\":\"12345678\",\"subtype\":\"sdk\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         PayPalDetails payPalDetails = new PayPalDetails();
@@ -752,13 +670,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestPayPalDetailsDeserialization() throws JsonProcessingException {
+    public void TestPayPalDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"orderID\":\"orderId\",\"payerID\":\"payerId\",\"type\":\"paypal\",\"subtype\":\"sdk\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         PayPalDetails payPalDetails = new PayPalDetails();
@@ -770,13 +685,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
     }
 
     @Test
-    public void TestDokuDetailsSerialization() throws JsonProcessingException {
+    public void TestDokuDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"firstName\":\"John\",\"infix\":\"infix\",\"lastName\":\"Smith\",\"ovoId\":\"ovoid\",\"shopperEmail\":\"test@email.com\",\"type\":\"doku_indomaret\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         DokuDetails dokuDetails = new DokuDetails();
@@ -791,13 +703,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestDokuDetailsDeserialization() throws JsonProcessingException {
+    public void TestDokuDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"firstName\":\"John\",\"infix\":\"infix\",\"lastName\":\"Smith\",\"ovoId\":\"ovoid\",\"shopperEmail\":\"test@email.com\",\"type\":\"doku_indomaret\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         DokuDetails dokuDetails = new DokuDetails();
@@ -812,13 +721,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
     }
 
     @Test
-    public void TestAmazonPayDetailsSerialization() throws JsonProcessingException {
+    public void TestAmazonPayDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"amazonPayToken\":\"amazonpaytoken\",\"type\":\"amazonpay\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         AmazonPayDetails amazonPayDetails = new AmazonPayDetails();
@@ -829,13 +735,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestAmazonPayDetailsDeserializer() throws JsonProcessingException {
+    public void TestAmazonPayDetailsDeserializer() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"amazonPayToken\":\"amazonpaytoken\",\"type\":\"amazonpay\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         AmazonPayDetails amazonPayDetails = new AmazonPayDetails();
@@ -845,14 +748,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
-
     }
 
     @Test
-    public void TestApplePayDetailsSerialization() throws JsonProcessingException {
+    public void TestApplePayDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"applePayToken\":\"applepaytoken\",\"fundingSource\":\"credit\",\"type\":\"applepay\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         ApplePayDetails applePayDetails = new ApplePayDetails();
@@ -863,13 +762,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestApplePayDetailsDeserializer() throws JsonProcessingException {
+    public void TestApplePayDetailsDeserializer() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"applePayToken\":\"applepaytoken\",\"fundingSource\":\"credit\",\"type\":\"applepay\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         ApplePayDetails applePayDetails = new ApplePayDetails();
@@ -880,13 +776,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
     }
 
     @Test
-    public void TestBillDeskOnlineDetailsSerialization() throws JsonProcessingException {
+    public void TestBillDeskOnlineDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"issuer\":\"111\",\"type\":\"billdesk_online\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         BillDeskOnlineDetails billdeskOnlineDetails = new BillDeskOnlineDetails();
@@ -896,13 +789,10 @@ public class CheckoutTest extends BaseTest {
 
         String gsonRequest = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gsonRequest);
-
-        String jacksonRequest = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jacksonRequest);
     }
 
     @Test
-    public void TestBillDeskOnlineDetailsDeserialization() throws JsonProcessingException {
+    public void TestBillDeskOnlineDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"issuer\":\"111\",\"type\":\"billdesk_online\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         BillDeskOnlineDetails billdeskOnlineDetails = new BillDeskOnlineDetails();
@@ -912,13 +802,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
     }
 
     @Test
-    public void TestBacsDirectDebitDetailsSerialization() throws JsonProcessingException {
+    public void TestBacsDirectDebitDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"GBP\"},\"merchantAccount\":\"TestMerchant\",\"paymentMethod\":{\"type\":\"directdebit_GB\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         BacsDirectDebitDetails bacsDirectDebitDetails = new BacsDirectDebitDetails();
@@ -927,13 +814,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestBacsDirectDebitDetailsDeserialization() throws JsonProcessingException {
+    public void TestBacsDirectDebitDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"GBP\"},\"merchantAccount\":\"TestMerchant\",\"paymentMethod\":{\"type\":\"directdebit_GB\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         BacsDirectDebitDetails bacsDirectDebitDetails = new BacsDirectDebitDetails();
@@ -942,13 +826,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
     }
 
     @Test
-    public void TestBilldeskWalletDetailsSerialization() throws JsonProcessingException {
+    public void TestBilldeskWalletDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"issuer\":\"111\",\"type\":\"billdesk_wallet\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         BillDeskWalletDetails billdeskWalletDetails = new BillDeskWalletDetails();
@@ -958,13 +839,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestBillDeskWalletDetailsDeserialization() throws JsonProcessingException {
+    public void TestBillDeskWalletDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"issuer\":\"111\",\"type\":\"billdesk_wallet\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
         BillDeskWalletDetails billdeskWalletDetails = new BillDeskWalletDetails();
         billdeskWalletDetails.setIssuer("111");
@@ -973,13 +851,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
     }
 
     @Test
-    public void TestDotpayDetailsSerialization() throws JsonProcessingException {
+    public void TestDotpayDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"issuer\":\"111\",\"type\":\"dotpay\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         DotpayDetails dotpayDetails = new DotpayDetails();
@@ -989,13 +864,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestDotpayDetailsDeserialization() throws JsonProcessingException {
+    public void TestDotpayDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"issuer\":\"111\",\"type\":\"dotpay\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
         DotpayDetails dotpayDetails = new DotpayDetails();
         dotpayDetails.setIssuer("111");
@@ -1004,13 +876,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
     }
 
     @Test
-    public void TestEntercashDetailsSerialization() throws JsonProcessingException {
+    public void TestEntercashDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"issuer\":\"111\",\"type\":\"entercash\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         EntercashDetails entercashDetails = new EntercashDetails();
@@ -1020,13 +889,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestEntercashDetailsDeserialization() throws JsonProcessingException {
+    public void TestEntercashDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"issuer\":\"111\",\"type\":\"entercash\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         EntercashDetails entercashDetails = new EntercashDetails();
@@ -1036,9 +902,6 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
     }
 
     @Test
@@ -1073,7 +936,7 @@ public class CheckoutTest extends BaseTest {
     }
 
     @Test
-    public void TestGiropayDetailsDeserialization() throws JsonProcessingException {
+    public void TestGiropayDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"type\":\"giropay\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         GiropayDetails giropayDetails = new GiropayDetails();
@@ -1082,13 +945,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
     }
 
     @Test
-    public void TestGiropayDetailsSerialization() throws JsonProcessingException {
+    public void TestGiropayDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"type\":\"giropay\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         GiropayDetails giropayDetails = new GiropayDetails();
@@ -1097,13 +957,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestQiwiWalletDetailsSerialization() throws JsonProcessingException {
+    public void TestQiwiWalletDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"telephoneNumber\":\"123456789\",\"type\":\"qiwiwallet\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         QiwiWalletDetails qiwiWalletDetails = new QiwiWalletDetails();
@@ -1113,13 +970,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestQiwiWalletDetailsDeserialization() throws JsonProcessingException {
+    public void TestQiwiWalletDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"telephoneNumber\":\"123456789\",\"type\":\"qiwiwallet\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         QiwiWalletDetails qiwiWalletDetails = new QiwiWalletDetails();
@@ -1129,13 +983,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
     }
 
     @Test
-    public void TestSamsungPayDetailsSerialization() throws JsonProcessingException {
+    public void TestSamsungPayDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"fundingSource\":\"debit\",\"samsungPayToken\":\"samsungpaytoken\",\"type\":\"samsungpay\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         SamsungPayDetails samsungPayDetails = new SamsungPayDetails();
@@ -1146,13 +997,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestSamsungPayDetailsDeserialization() throws JsonProcessingException {
+    public void TestSamsungPayDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"fundingSource\":\"debit\",\"samsungPayToken\":\"samsungpaytoken\",\"type\":\"samsungpay\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         SamsungPayDetails samsungPayDetails = new SamsungPayDetails();
@@ -1163,13 +1011,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
     }
 
     @Test
-    public void TestVippsDetailsSerialization() throws JsonProcessingException {
+    public void TestVippsDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"telephoneNumber\":\"123456789\",\"type\":\"vipps\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         VippsDetails vippsDetails = new VippsDetails();
@@ -1179,13 +1024,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestVippsDetailsDeserialization() throws JsonProcessingException {
+    public void TestVippsDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"telephoneNumber\":\"123456789\",\"type\":\"vipps\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         VippsDetails vippsDetails = new VippsDetails();
@@ -1195,13 +1037,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
     }
 
     @Test
-    public void TestVisaCheckoutDetailsSerialization() throws JsonProcessingException {
+    public void TestVisaCheckoutDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"fundingSource\":\"credit\",\"type\":\"visacheckout\",\"visaCheckoutCallId\":\"visacheckoutcallid\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         VisaCheckoutDetails visaCheckoutDetails = new VisaCheckoutDetails();
@@ -1212,13 +1051,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestVisaCheckoutDetailsDeserialization() throws JsonProcessingException {
+    public void TestVisaCheckoutDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"fundingSource\":\"credit\",\"type\":\"visacheckout\",\"visaCheckoutCallId\":\"visacheckoutcallid\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         VisaCheckoutDetails visaCheckoutDetails = new VisaCheckoutDetails();
@@ -1229,9 +1065,6 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jacksonObject);
     }
 
     @Test
@@ -1295,7 +1128,7 @@ public class CheckoutTest extends BaseTest {
     }
 
     @Test
-    public void TestAndroidPayDetails() throws JsonProcessingException {
+    public void TestAndroidPayDetails() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"type\":\"androidpay\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         AndroidPayDetails androidPayDetails = new AndroidPayDetails();
@@ -1304,13 +1137,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestAndroidPayDetailsDeserializer() throws JsonProcessingException {
+    public void TestAndroidPayDetailsDeserializer() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"type\":\"androidpay\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         AndroidPayDetails androidPayDetails = new AndroidPayDetails();
@@ -1318,14 +1148,11 @@ public class CheckoutTest extends BaseTest {
         expectedPaymentRequest.setPaymentMethod(androidPayDetails);
 
         PaymentsRequest gson = PRETTY_PRINT_GSON.fromJson(json, PaymentsRequest.class);
-        PaymentsRequest jackson = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-
         assertEquals(expectedPaymentRequest, gson);
-        assertEquals(expectedPaymentRequest, jackson);
     }
 
     @Test
-    public void TestKlarnaDetailsSerialization() throws JsonProcessingException {
+    public void TestKlarnaDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"billingAddress\":\"billingaddress\",\"deliveryAddress\":\"deliveryaddress\",\"personalDetails\":\"personaldetails\",\"recurringDetailReference\":\"reference\",\"storedPaymentMethodId\":\"storedpaymentmethodid\",\"type\":\"klarna\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         KlarnaDetails klarnaDetails = new KlarnaDetails();
@@ -1340,13 +1167,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestKlarnaDetailsDeserialization() throws JsonProcessingException {
+    public void TestKlarnaDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"billingAddress\":\"billingaddress\",\"deliveryAddress\":\"deliveryaddress\",\"personalDetails\":\"personaldetails\",\"recurringDetailReference\":\"reference\",\"storedPaymentMethodId\":\"storedpaymentmethodid\",\"type\":\"klarna\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         KlarnaDetails klarnaDetails = new KlarnaDetails();
@@ -1361,13 +1185,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gson = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedPaymentRequest, gson);
-
-        PaymentsRequest jackson = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedPaymentRequest, jackson);
     }
 
     @Test
-    public void TestMasterPassDetailsSerialization() throws JsonProcessingException {
+    public void TestMasterPassDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"fundingSource\":\"credit\",\"masterpassTransactionId\":\"transactionId\",\"type\":\"masterpass\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         MasterpassDetails masterpassDetails = new MasterpassDetails();
@@ -1379,13 +1200,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestMasterPassDetailsDeserialization() throws JsonProcessingException {
+    public void TestMasterPassDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"fundingSource\":\"credit\",\"masterpassTransactionId\":\"transactionId\",\"type\":\"masterpass\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         MasterpassDetails masterpassDetails = new MasterpassDetails();
@@ -1396,13 +1214,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedRequest, jacksonObject);
     }
 
     @Test
-    public void TestMobilePayDetailsSerialization() throws JsonProcessingException {
+    public void TestMobilePayDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"type\":\"mobilepay\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         MobilePayDetails mobilePayDetails = new MobilePayDetails();
@@ -1411,13 +1226,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestMobilePayDetailsDeserialization() throws JsonProcessingException {
+    public void TestMobilePayDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"type\":\"mobilepay\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         MobilePayDetails mobilePayDetails = new MobilePayDetails();
@@ -1426,13 +1238,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedRequest, jacksonObject);
     }
 
     @Test
-    public void TestPayUUpiDetailsSerialization() throws JsonProcessingException {
+    public void TestPayUUpiDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"type\":\"payu_IN_upi\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         PayUUpiDetails payUUpiDetails = new PayUUpiDetails();
@@ -1441,13 +1250,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestPayUUpiDetailsDeserialization() throws JsonProcessingException {
+    public void TestPayUUpiDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"type\":\"payu_IN_upi\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         PayUUpiDetails payUUpiDetails = new PayUUpiDetails();
@@ -1456,13 +1262,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedRequest, jacksonObject);
     }
 
     @Test
-    public void TestPayUpiIntentDetailsSerialization() throws JsonProcessingException {
+    public void TestPayUpiIntentDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"type\":\"upi_intent\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         UpiIntentDetails upiIntentDetails = new UpiIntentDetails();
@@ -1471,13 +1274,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestPayUpiIntentDetailsDeserialization() throws JsonProcessingException {
+    public void TestPayUpiIntentDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"type\":\"upi_intent\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         UpiIntentDetails upiIntentDetails = new UpiIntentDetails();
@@ -1486,13 +1286,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedRequest, jacksonObject);
     }
 
     @Test
-    public void TestPayUpiCollectDetailsSerialization() throws JsonProcessingException {
+    public void TestPayUpiCollectDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"type\":\"upi_collect\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         UpiCollectDetails upiCollectDetails = new UpiCollectDetails();
@@ -1501,13 +1298,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestPayUpiCollectDetailsDeserialization() throws JsonProcessingException {
+    public void TestPayUpiCollectDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"type\":\"upi_collect\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         UpiCollectDetails upiCollectDetails = new UpiCollectDetails();
@@ -1516,13 +1310,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedRequest, jacksonObject);
     }
 
     @Test
-    public void TestWeChatPayDetailsSerialization() throws JsonProcessingException {
+    public void TestWeChatPayDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"appId\":\"appId\",\"openid\":\"openId\",\"type\":\"wechatpay\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         WeChatPayDetails weChatPayDetails = new WeChatPayDetails();
@@ -1532,13 +1323,10 @@ public class CheckoutTest extends BaseTest {
         paymentsRequest.setPaymentMethod(weChatPayDetails);
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestWeChatPayDetailsDeserialization() throws JsonProcessingException {
+    public void TestWeChatPayDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"appId\":\"appId\",\"openid\":\"openId\",\"type\":\"wechatpay\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         WeChatPayDetails weChatPayDetails = new WeChatPayDetails();
@@ -1549,13 +1337,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedRequest, jacksonObject);
     }
 
     @Test
-    public void TestWeChatPayMiniProgramDetailsSerialization() throws JsonProcessingException {
+    public void TestWeChatPayMiniProgramDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"appId\":\"appId\",\"openid\":\"openId\",\"type\":\"wechatpayMiniProgram\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         WeChatPayMiniProgramDetails weChatPayMiniProgramDetails = new WeChatPayMiniProgramDetails();
@@ -1566,13 +1351,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestWeChatPayMiniProgramDetailsDeserialization() throws JsonProcessingException {
+    public void TestWeChatPayMiniProgramDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"appId\":\"appId\",\"openid\":\"openId\",\"type\":\"wechatpayMiniProgram\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         WeChatPayMiniProgramDetails weChatPayMiniProgramDetails = new WeChatPayMiniProgramDetails();
@@ -1583,13 +1365,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedRequest, jacksonObject);
     }
 
     @Test
-    public void TestBlikDetailsSerialization() throws JsonProcessingException {
+    public void TestBlikDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"blikCode\":\"blikCode\",\"type\":\"blik\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         BlikDetails blikDetails = new BlikDetails();
@@ -1599,13 +1378,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestBlikDetailsDeserialization() throws JsonProcessingException {
+    public void TestBlikDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"blikCode\":\"blikCode\",\"type\":\"blik\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         BlikDetails blikDetails = new BlikDetails();
@@ -1615,13 +1391,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedRequest, jacksonObject);
     }
 
     @Test
-    public void TestDragonpayDetailsSerialization() throws JsonProcessingException {
+    public void TestDragonpayDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"issuer\":\"issuer\",\"shopperEmail\":\"test@test.com\",\"type\":\"dragonpay_ebanking\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         DragonpayDetails dragonPayDetails = new DragonpayDetails();
@@ -1633,13 +1406,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestDragonpayDetailsDeserialization() throws JsonProcessingException {
+    public void TestDragonpayDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"issuer\":\"issuer\",\"shopperEmail\":\"test@test.com\",\"type\":\"dragonpay_ebanking\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         DragonpayDetails dragonPayDetails = new DragonpayDetails();
@@ -1651,13 +1421,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedRequest, jacksonObject);
     }
 
     @Test
-    public void TestLianLianPayDetailsSerialization() throws JsonProcessingException {
+    public void TestLianLianPayDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"telephoneNumber\":\"telephone\",\"type\":\"lianlianpay_ebanking_credit\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         LianLianPayDetails lianLianPayDetails = new LianLianPayDetails();
@@ -1668,13 +1435,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestLianLianPayDetailsDeserialization() throws JsonProcessingException {
+    public void TestLianLianPayDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"telephoneNumber\":\"telephone\",\"type\":\"lianlianpay_ebanking_credit\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         LianLianPayDetails lianLianPayDetails = new LianLianPayDetails();
@@ -1685,13 +1449,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedRequest, jacksonObject);
     }
 
     @Test
-    public void TestMbwayDetailsSerialization() throws JsonProcessingException {
+    public void TestMbwayDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"shopperEmail\":\"test@test.com\",\"telephoneNumber\":\"telephone\",\"type\":\"mbway\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         MbwayDetails mbwayDetails = new MbwayDetails();
@@ -1703,13 +1464,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestMbwayDetailsDeserialization() throws JsonProcessingException {
+    public void TestMbwayDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"shopperEmail\":\"test@test.com\",\"telephoneNumber\":\"telephone\",\"type\":\"mbway\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         MbwayDetails mbwayDetails = new MbwayDetails();
@@ -1721,13 +1479,10 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedRequest, jacksonObject);
     }
 
     @Test
-    public void TestMolPayDetailsSerialization() throws JsonProcessingException {
+    public void TestMolPayDetailsSerialization() {
         String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"issuer\":\"issuer\",\"type\":\"molpay_ebanking_direct_MY\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         MolPayDetails molPayDetails = new MolPayDetails();
@@ -1738,13 +1493,10 @@ public class CheckoutTest extends BaseTest {
 
         String gson = GSON.toJson(paymentsRequest);
         assertJsonStringEquals(expectedJson, gson);
-
-        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
-        assertJsonStringEquals(expectedJson, jackson);
     }
 
     @Test
-    public void TestMolPayDetailsDeserialization() throws JsonProcessingException {
+    public void TestMolPayDetailsDeserialization() {
         String json = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"issuer\":\"issuer\",\"type\":\"molpay_ebanking_direct_MY\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
 
         MolPayDetails molPayDetails = new MolPayDetails();
@@ -1755,9 +1507,6 @@ public class CheckoutTest extends BaseTest {
 
         PaymentsRequest gsonObject = GSON.fromJson(json, PaymentsRequest.class);
         assertEquals(expectedRequest, gsonObject);
-
-        PaymentsRequest jacksonObject = OBJECT_MAPPER.readValue(json, PaymentsRequest.class);
-        assertEquals(expectedRequest, jacksonObject);
     }
 
     @Test
@@ -2408,7 +2157,7 @@ public class CheckoutTest extends BaseTest {
     }
 
     @Test
-    public void TestPaymentMethodDetailsDirectDeserialization() throws JsonProcessingException {
+    public void TestPaymentMethodDetailsDirectDeserialization() {
         Gson gson = new GsonBuilder().registerTypeAdapterFactory(new PaymentMethodDetailsTypeAdapter()).create();
 
         String json = "{\"type\": \"applepay\",\"applePayToken\": \"VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU...\"}";
@@ -2417,16 +2166,10 @@ public class CheckoutTest extends BaseTest {
         assertNotNull(gsonObject);
         assertTrue(gsonObject instanceof ApplePayDetails);
         assertEquals("VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU...", ((ApplePayDetails) gsonObject).getApplePayToken());
-
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule().addDeserializer(PaymentMethodDetails.class, new PaymentMethodDetailsDeserializerJackson()));
-        PaymentMethodDetails jacksonObject = objectMapper.readValue(json, PaymentMethodDetails.class);
-        assertNotNull(jacksonObject);
-        assertTrue(jacksonObject instanceof ApplePayDetails);
-        assertEquals("VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU...", ((ApplePayDetails) jacksonObject).getApplePayToken());
     }
 
     @Test
-    public void TestPaymentMethodDetailsDirectDeserializationIndianBanking() throws JsonProcessingException {
+    public void TestPaymentMethodDetailsDirectDeserializationIndianBanking() {
         Gson gson = new GsonBuilder().registerTypeAdapterFactory(new PaymentMethodDetailsTypeAdapter()).create();
 
         String json = "{\"type\": \"wallet_IN\",\"issuer\": \"CBI\"}";
@@ -2435,12 +2178,6 @@ public class CheckoutTest extends BaseTest {
         assertNotNull(gsonObject);
         assertTrue(gsonObject instanceof GenericIssuerPaymentMethodDetails);
         assertEquals("CBI", ((GenericIssuerPaymentMethodDetails) gsonObject).getIssuer());
-
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule().addDeserializer(PaymentMethodDetails.class, new PaymentMethodDetailsDeserializerJackson()));
-        PaymentMethodDetails jacksonObject = objectMapper.readValue(json, PaymentMethodDetails.class);
-        assertNotNull(jacksonObject);
-        assertTrue(jacksonObject instanceof GenericIssuerPaymentMethodDetails);
-        assertEquals("CBI", ((GenericIssuerPaymentMethodDetails) jacksonObject).getIssuer());
     }
 
     @Test

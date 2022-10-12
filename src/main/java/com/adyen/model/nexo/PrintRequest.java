@@ -1,11 +1,7 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -27,16 +23,12 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PrintRequest", propOrder = {
-        "printOutput"
-})
 public class PrintRequest {
 
     /**
      * The Print output.
      */
-    @XmlElement(name = "PrintOutput", required = true)
+    @SerializedName("PrintOutput")
     @Schema(description = "Information to print and the way to process the print.")
     protected PrintOutput printOutput;
 

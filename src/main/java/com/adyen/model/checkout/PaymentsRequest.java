@@ -20,23 +20,12 @@
  */
 package com.adyen.model.checkout;
 
-import com.adyen.deserializer.PaymentMethodDetailsDeserializerJackson;
 import com.adyen.deserializer.PaymentMethodDetailsTypeAdapter;
-import com.adyen.model.AccountInfo;
-import com.adyen.model.Address;
-import com.adyen.model.Amount;
-import com.adyen.model.BrowserInfo;
-import com.adyen.model.ForexQuote;
-import com.adyen.model.Installments;
-import com.adyen.model.MerchantRiskIndicator;
-import com.adyen.model.Name;
-import com.adyen.model.Split;
-import com.adyen.model.ThreeDS2RequestData;
+import com.adyen.model.*;
 import com.adyen.model.applicationinfo.ApplicationInfo;
 import com.adyen.serializer.DateSerializer;
 import com.adyen.serializer.DateTimeGMTSerializer;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -45,12 +34,7 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * PaymentsRequest
@@ -247,7 +231,6 @@ public class PaymentsRequest {
 
     @SerializedName("paymentMethod")
     @JsonAdapter(PaymentMethodDetailsTypeAdapter.class)
-    @JsonDeserialize(using = PaymentMethodDetailsDeserializerJackson.class)
     private PaymentMethodDetails paymentMethod = null;
 
     @SerializedName("recurringExpiry")

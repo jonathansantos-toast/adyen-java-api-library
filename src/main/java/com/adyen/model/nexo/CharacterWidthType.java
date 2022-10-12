@@ -1,8 +1,7 @@
 package com.adyen.model.nexo;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlType;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Arrays;
 
 
@@ -20,19 +19,17 @@ import java.util.Arrays;
  * &lt;/simpleType&gt;
  * </pre>
  */
-@XmlType(name = "CharacterWidthType")
-@XmlEnum
 public enum CharacterWidthType {
 
     /**
      * Single width character width type.
      */
-    @XmlEnumValue("SingleWidth")
+    @SerializedName("SingleWidth")
     SINGLE_WIDTH("SingleWidth"),
     /**
      * Double width character width type.
      */
-    @XmlEnumValue("DoubleWidth")
+    @SerializedName("DoubleWidth")
     DOUBLE_WIDTH("DoubleWidth");
     private final String value;
 

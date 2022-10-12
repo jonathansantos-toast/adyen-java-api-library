@@ -1,11 +1,8 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,16 +26,12 @@ import java.util.List;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DisplayRequest", propOrder = {
-        "displayOutput"
-})
 public class DisplayRequest {
 
     /**
      * The Display output.
      */
-    @XmlElement(name = "DisplayOutput", required = true)
+    @SerializedName("DisplayOutput")
     @Schema(description = "Information to display and the way to process the display. --Rule: Complete display content for output devices. At most one DisplayOutput per  Device/ InfoQualify pair")
     protected List<DisplayOutput> displayOutput;
 

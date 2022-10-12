@@ -1,8 +1,7 @@
 package com.adyen.model.nexo;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlType;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Arrays;
 
 
@@ -20,19 +19,17 @@ import java.util.Arrays;
  * &lt;/simpleType&gt;
  * </pre>
  */
-@XmlType(name = "CheckTypeCodeType")
-@XmlEnum
 public enum CheckTypeCodeType {
 
     /**
      * Personal check type code type.
      */
-    @XmlEnumValue("Personal")
+    @SerializedName("Personal")
     PERSONAL("Personal"),
     /**
      * Company check type code type.
      */
-    @XmlEnumValue("Company")
+    @SerializedName("Company")
     COMPANY("Company");
     private final String value;
 

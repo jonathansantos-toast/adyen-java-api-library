@@ -1,10 +1,8 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlType;
 import java.util.Arrays;
 
 
@@ -23,29 +21,27 @@ import java.util.Arrays;
  * &lt;/simpleType&gt;
  * </pre>
  */
-@XmlType(name = "SoundActionType")
-@XmlEnum
 public enum SoundActionType {
 
 
     /**
      * Start the sound as specified in the messageType.
      */
-    @XmlEnumValue("StartSound")
+    @SerializedName("StartSound")
     @Schema(description = "Start the sound as specified in the message.")
     START_SOUND("StartSound"),
 
     /**
      * Stop the sound in progress.
      */
-    @XmlEnumValue("StopSound")
+    @SerializedName("StopSound")
     @Schema(description = "Stop the sound in progress.")
     STOP_SOUND("StopSound"),
 
     /**
      * Set the default volume of sounds.
      */
-    @XmlEnumValue("SetDefaultVolume")
+    @SerializedName("SetDefaultVolume")
     @Schema(description = "Set the default volume of sounds.")
     SET_DEFAULT_VOLUME("SetDefaultVolume");
     private final String value;

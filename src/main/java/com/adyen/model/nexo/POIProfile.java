@@ -1,12 +1,8 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlList;
-import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,23 +27,18 @@ import java.util.List;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "POIProfile", propOrder = {
-        "serviceProfiles"
-})
 public class POIProfile {
 
     /**
      * The Service profiles.
      */
-    @XmlList
-    @XmlElement(name = "ServiceProfiles")
+    @SerializedName("ServiceProfiles")
     @Schema(description = "Service profiles of the Sale to POI protocol. --Rule: If a service profile could be requested")
     protected List<ServiceProfilesType> serviceProfiles;
     /**
      * The Generic profile.
      */
-    @XmlElement(name = "GenericProfile")
+    @SerializedName("GenericProfile")
     @Schema(description = "Functional profile of the Sale to POI protocol.")
     protected GenericProfileType genericProfile;
 

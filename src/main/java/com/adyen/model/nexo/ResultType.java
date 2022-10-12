@@ -1,10 +1,8 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlType;
 import java.util.Arrays;
 
 
@@ -23,29 +21,27 @@ import java.util.Arrays;
  * &lt;/simpleType&gt;
  * </pre>
  */
-@XmlType(name = "ResultType")
-@XmlEnum
 public enum ResultType {
 
 
     /**
      * Processing OK. Information related to the result of the processing is contained in other parts of the response messageType.
      */
-    @XmlEnumValue("Success")
+    @SerializedName("Success")
     @Schema(description = "Processing OK. Information related to the result of the processing is contained in other parts of the response message.")
     SUCCESS("Success"),
 
     /**
      * ErrorCondition
      */
-    @XmlEnumValue("Failure")
+    @SerializedName("Failure")
     @Schema(description = "ErrorCondition")
     FAILURE("Failure"),
 
     /**
      * The transaction has been processed successfully, but the success is not complete (e.g. only a partial amount is available for the payment, the format to be
      */
-    @XmlEnumValue("Partial")
+    @SerializedName("Partial")
     @Schema(description = "The transaction has been processed successfully, but the success is not complete (e.g. only a partial amount is available for the payment, the format to be")
     PARTIAL("Partial");
     private final String value;

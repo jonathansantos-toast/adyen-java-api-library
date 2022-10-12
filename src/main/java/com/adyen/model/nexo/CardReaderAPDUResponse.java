@@ -1,11 +1,7 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -29,29 +25,24 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CardReaderAPDUResponse", propOrder = {
-        "response",
-        "apduData"
-})
 public class CardReaderAPDUResponse {
 
     /**
      * The Response.
      */
-    @XmlElement(name = "Response", required = true)
+    @SerializedName("Response")
     @Schema(description = "Result of a message request processing.")
     protected Response response;
     /**
      * The Apdu data.
      */
-    @XmlElement(name = "APDUData")
+    @SerializedName("APDUData")
     @Schema(description = "Data field of the APDU command (Lc + Data)")
     protected byte[] apduData;
     /**
      * The Card status words.
      */
-    @XmlElement(name = "CardStatusWords", required = true)
+    @SerializedName("CardStatusWords")
     @Schema(description = "Status of a smartcard response to a command (SW1-SW2)")
     protected byte[] cardStatusWords;
 

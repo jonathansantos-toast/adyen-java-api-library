@@ -1,10 +1,8 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlType;
 import java.util.Arrays;
 
 
@@ -22,22 +20,20 @@ import java.util.Arrays;
  * &lt;/simpleType&gt;
  * </pre>
  */
-@XmlType(name = "TransactionActionType")
-@XmlEnum
 public enum TransactionActionType {
 
 
     /**
      * Start a transaction by a swipe ahead mechanism, with the services which are enabled.
      */
-    @XmlEnumValue("StartTransaction")
+    @SerializedName("StartTransaction")
     @Schema(description = "Start a transaction by a swipe ahead mechanism, with the services which are enabled.")
     START_TRANSACTION("StartTransaction"),
 
     /**
      * Abort a transaction started either by a CardAcquisition or EnableService with TransactionAction to "StartTransaction", not followed by a service request from
      */
-    @XmlEnumValue("AbortTransaction")
+    @SerializedName("AbortTransaction")
     @Schema(description = "Abort a transaction started either by a CardAcquisition or EnableService with TransactionAction to \"StartTransaction\", not followed by a service request from")
     ABORT_TRANSACTION("AbortTransaction");
     private final String value;

@@ -1,11 +1,8 @@
 package com.adyen.model.nexo;
 
+import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,29 +28,24 @@ import java.util.List;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StoredValueRequest", propOrder = {
-        "saleData",
-        "storedValueData"
-})
 public class StoredValueRequest {
 
     /**
      * The Sale data.
      */
-    @XmlElement(name = "SaleData", required = true)
+    @SerializedName("SaleData")
     @Schema(description = "Data related to the Sale System.")
     protected SaleData saleData;
     /**
      * The Stored value data.
      */
-    @XmlElement(name = "StoredValueData", required = true)
+    @SerializedName("StoredValueData")
     @Schema(description = "Data related to the stored value card.")
     protected List<StoredValueData> storedValueData;
     /**
      * The Customer language.
      */
-    @XmlElement(name = "CustomerLanguage")
+    @SerializedName("CustomerLanguage")
     @Schema(description = "Language of the Customer --Rule: If the language is selected by the Sale System before the request to the POI.")
     protected String customerLanguage;
 

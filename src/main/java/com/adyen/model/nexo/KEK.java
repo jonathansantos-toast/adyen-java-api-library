@@ -1,9 +1,6 @@
 package com.adyen.model.nexo;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import com.google.gson.annotations.SerializedName;
 
 
 /**
@@ -28,32 +25,27 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;/complexType&gt;
  * </pre>
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "KEK", propOrder = {
-        "kekIdentifier",
-        "keyEncryptionAlgorithm"
-})
 public class KEK {
 
     /**
      * The Kek identifier.
      */
-    @XmlElement(name = "KEKIdentifier", required = true)
+    @SerializedName("KEKIdentifier")
     protected KEKIdentifier kekIdentifier;
     /**
      * The Key encryption algorithm.
      */
-    @XmlElement(name = "KeyEncryptionAlgorithm", required = true)
+    @SerializedName("KeyEncryptionAlgorithm")
     protected AlgorithmIdentifier keyEncryptionAlgorithm;
     /**
      * The Version.
      */
-    @XmlElement(name = "Version")
+    @SerializedName("Version")
     protected VersionType version;
     /**
      * The Encrypted key.
      */
-    @XmlElement(name = "EncryptedKey", required = true)
+    @SerializedName("EncryptedKey")
     protected byte[] encryptedKey;
 
     /**

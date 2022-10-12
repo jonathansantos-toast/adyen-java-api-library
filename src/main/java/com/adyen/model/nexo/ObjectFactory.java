@@ -1,12 +1,8 @@
 package com.adyen.model.nexo;
 
-import javax.xml.bind.annotation.XmlRegistry;
-
-
 /**
  * The type Object factory.
  */
-@XmlRegistry
 public class ObjectFactory {
 
     /**
