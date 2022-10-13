@@ -37,7 +37,6 @@ import com.adyen.model.ThreeDS2RequestData;
 import com.adyen.model.additionalData.InvoiceLine;
 import com.adyen.model.checkout.LineItem;
 import com.adyen.model.checkout.PaymentsRequest;
-import com.adyen.model.checkout.PersonalDetails;
 import com.adyen.model.checkout.details.AfterpayDetails;
 import com.adyen.model.modification.AbstractModificationRequest;
 import com.adyen.model.modification.CaptureRequest;

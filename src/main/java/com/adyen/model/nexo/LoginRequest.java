@@ -243,7 +243,7 @@ public class LoginRequest {
     /**
      * Gets the value of the tokenRequestedType property.
      *
-     * @return possible      object is     {@link TokenRequestedType }
+     * @return possible      object is      TokenRequestedType
      */
     public TokenRequestedType getTokenRequestedType() {
         return tokenRequestedType;
@@ -252,7 +252,7 @@ public class LoginRequest {
     /**
      * Sets the value of the tokenRequestedType property.
      *
-     * @param value allowed object is     {@link TokenRequestedType }
+     * @param value allowed object is     TokenRequestedType
      */
     public void setTokenRequestedType(TokenRequestedType value) {
         this.tokenRequestedType = value;
